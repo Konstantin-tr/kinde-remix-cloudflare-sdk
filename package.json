@@ -1,5 +1,5 @@
 {
-  "name": "@kinde-oss/kinde-remix-sdk",
+  "name": "kinde-remix-cloudflare-sdk",
   "version": "1.0.0",
   "description": "",
   "main": "dist/cjs/index.js",
@@ -34,17 +34,16 @@
     "lint": "eslint . --ext .ts --fix && prettier --write ."
   },
   "author": {
-    "name": "Kinde",
-    "email": "engineering@kinde.com",
-    "url": "https://kinde.com"
+    "name": "Konstantin-tr",
+    "email": "Konstantinsiegl2503+npm@gmail.com",
+    "url": "https://github.com/Konstantin-tr"
   },
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kinde-oss/kinde-remix-sdk"
+    "url": "https://github.com/Konstantin-tr/kinde-remix-cloudflare-sdk"
   },
-  "bugs": "https://github.com/kinde-oss/kinde-remix-sdk",
-  "homepage": "https://kinde.com",
+  "bugs": "https://github.com/Konstantin-tr/kinde-remix-cloudflare-sdk",
   "dependencies": {
     "@kinde-oss/kinde-typescript-sdk": "^2.8.0",
     "jwt-decode": "^4.0.0",
