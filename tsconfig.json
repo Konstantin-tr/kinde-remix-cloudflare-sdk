@@ -19,6 +19,7 @@
     "declarationMap": true,
     "esModuleInterop": true,
     "checkJs": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "skipLibCheck": true
   }
 }

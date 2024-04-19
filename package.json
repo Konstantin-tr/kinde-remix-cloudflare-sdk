@@ -1,6 +1,6 @@
 {
   "name": "kinde-remix-cloudflare-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/index.js",
@@ -46,6 +46,7 @@
   "bugs": "https://github.com/Konstantin-tr/kinde-remix-cloudflare-sdk",
   "dependencies": {
     "@kinde-oss/kinde-typescript-sdk": "^2.8.0",
+    "@remix-run/cloudflare": "^2.8.1",
     "jwt-decode": "^4.0.0",
     "universal-cookie": "^7.1.4"
   },
@@ -66,8 +67,5 @@
     "rollup": "^4.9.4",
     "typescript": "^5.4.3",
     "vitest": "^1.4.0"
-  },
-  "peerDependencies": {
-    "@remix-run/node": "^2.4.1"
   }
 }

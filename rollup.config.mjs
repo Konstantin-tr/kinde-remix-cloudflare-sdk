@@ -16,7 +16,9 @@ export default {
   plugins: [terser()],
   external: [
     "@kinde-oss/kinde-typescript-sdk",
-    "@remix-run/node",
+    "@cloudflare/workers-types",
+    "typescript",
+    "@remix-run/cloudflare",
     "universal-cookie",
   ],
 };

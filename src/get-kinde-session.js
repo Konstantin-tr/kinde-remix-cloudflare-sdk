@@ -1,13 +1,16 @@
-import { kindeClient } from "./handle-auth";
+import { getOrCreateClient } from "./client";
 import { createSessionManager } from "./session/session";
 import { generateCookieHeader } from "./utils/cookies";
 
 /**
  *
  * @param {Request} request
+ * @param {import("./types").KindeConfig} config
  */
-export const getKindeSession = async (request) => {
+export const getKindeSession = async (request, config) => {
   const { sessionManager, cookies } = await createSessionManager(request);
+
+  const kindeClient = getOrCreateClient(config.environmentConfig);
 
   /**
    *
@@ -119,7 +122,7 @@ export const getKindeSession = async (request) => {
         sessionManager,
         code.toLowerCase(),
         defaultValue,
-        type,
+        type
       );
     } catch (err) {
       console.error(err);
@@ -138,7 +141,7 @@ export const getKindeSession = async (request) => {
       return await kindeClient.getBooleanFlag(
         sessionManager,
         code.toLowerCase(),
-        defaultValue,
+        defaultValue
       );
     } catch (err) {
       console.error(err);
@@ -157,7 +160,7 @@ export const getKindeSession = async (request) => {
       return await kindeClient.getIntegerFlag(
         sessionManager,
         code.toLowerCase(),
-        defaultValue,
+        defaultValue
       );
     } catch (err) {
       console.error(err);
@@ -175,7 +178,7 @@ export const getKindeSession = async (request) => {
       return await kindeClient.getStringFlag(
         sessionManager,
         code.toLowerCase(),
-        defaultValue,
+        defaultValue
       );
     } catch (err) {
       console.error(err);

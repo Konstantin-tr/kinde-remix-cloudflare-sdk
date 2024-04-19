@@ -62,3 +62,25 @@ export interface KindePermission {
   isGranted: boolean;
   orgCode: string | null;
 }
+
+
+
+export interface KindeEnvironmentConfig {
+  clientId: string;
+  clientSecret: string;
+  issuerUrl: string;
+  kindeSiteUrl: string;
+  kindePostLoginRedirectUrl: string;
+  kindePostLogoutRedirectUrl: string;
+  audience?: string;
+}
+
+export interface KindeSessionConfig {
+  sessionSecrets: string[];
+  isSecure: boolean;
+}
+
+export interface KindeConfig {
+  sessionConfig: KindeSessionConfig;
+  environmentConfig: KindeEnvironmentConfig;
+}

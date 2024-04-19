@@ -1,38 +1,19 @@
-import {
-  GrantType,
-  createKindeServerClient,
-} from "@kinde-oss/kinde-typescript-sdk";
-import { redirect } from "@remix-run/node";
-import { config } from "./config";
+import { redirect } from "@remix-run/cloudflare";
+import { getOrCreateClient } from "./client";
 import { createSessionManager } from "./session/session";
 import { generateCookieHeader } from "./utils/cookies";
-import { version } from "./utils/version";
-
-export const kindeClient = createKindeServerClient(
-  GrantType.AUTHORIZATION_CODE,
-  {
-    authDomain:
-      config.issuerUrl || "Set your issuer URL in your environment variables.",
-    clientId:
-      config.clientId || "Set your client ID in your environment variables.",
-    clientSecret: config.clientSecret,
-    redirectURL: config.siteUrl + "/kinde-auth/callback",
-    logoutRedirectURL:
-      config.postLogoutRedirectUrl ||
-      "Set your logout redirect URL in your environment variables.",
-    frameworkVersion: version,
-    framework: "Remix",
-  },
-);
 
 /**
  *
  * @param {Request} request
  * @param {*} route
+ * @param {import("./types").KindeConfig} config
  * @returns
  */
-export const handleAuth = async (request, route) => {
+export const handleAuth = async (request, route, config) => {
   const { sessionManager, cookies } = await createSessionManager(request);
+
+  const kindeClient = getOrCreateClient(config.environmentConfig);
 
   const login = async () => {
     const { searchParams } = new URL(request.url);
@@ -73,7 +54,7 @@ export const handleAuth = async (request, route) => {
     await kindeClient.handleRedirectToApp(sessionManager, new URL(request.url));
 
     const postLoginRedirectURLFromMemory = await sessionManager.getSessionItem(
-      "post_login_redirect_url",
+      "post_login_redirect_url"
     );
 
     if (postLoginRedirectURLFromMemory) {
@@ -82,7 +63,7 @@ export const handleAuth = async (request, route) => {
 
     const postLoginRedirectURL = postLoginRedirectURLFromMemory
       ? postLoginRedirectURLFromMemory
-      : config.postLoginRedirectUrl ||
+      : config.environmentConfig.kindePostLoginRedirectUrl ||
         "Set your post login redirect URL in your environment variables.";
     const headers = generateCookieHeader(request, cookies);
     return redirect(postLoginRedirectURL.toString(), {
