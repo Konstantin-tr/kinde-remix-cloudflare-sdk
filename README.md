@@ -3,6 +3,8 @@ THIS IS NOT MAINTAINED BY KINDE, THIS IS A HOBBY PROJECT FOR USING KINDE WITH RE
 
 Fork for using kinde remix sdk on cloudflare, currently WIP and not meant for production use.
 
+If you find any issues, feel free to post them or open an MR.
+
 # kinde-remix-cloudflare-sdk
 
 This is a fork of https://github.com/kinde-oss/kinde-remix-sdk.
