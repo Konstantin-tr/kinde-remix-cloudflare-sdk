@@ -8,7 +8,7 @@ let kindeClient = null;
 
 /**
  *
- * @param {import("./types").KindeEnvironmentConfig} config
+ * @param {import("./types").KindeConfig} config
  * @returns
  */
 export function getOrCreateClient(config) {

@@ -13,7 +13,7 @@ import { generateCookieHeader } from "./utils/cookies";
 export const handleAuth = async (request, route, config) => {
   const { sessionManager, cookies } = await createSessionManager(request);
 
-  const kindeClient = getOrCreateClient(config.environmentConfig);
+  const kindeClient = getOrCreateClient(config);
 
   const login = async () => {
     const { searchParams } = new URL(request.url);
@@ -63,7 +63,7 @@ export const handleAuth = async (request, route, config) => {
 
     const postLoginRedirectURL = postLoginRedirectURLFromMemory
       ? postLoginRedirectURLFromMemory
-      : config.environmentConfig.kindePostLoginRedirectUrl ||
+      : config.kindePostLoginRedirectUrl ||
         "Set your post login redirect URL in your environment variables.";
     const headers = generateCookieHeader(request, cookies);
     return redirect(postLoginRedirectURL.toString(), {

@@ -10,7 +10,7 @@ import { generateCookieHeader } from "./utils/cookies";
 export const getKindeSession = async (request, config) => {
   const { sessionManager, cookies } = await createSessionManager(request);
 
-  const kindeClient = getOrCreateClient(config.environmentConfig);
+  const kindeClient = getOrCreateClient(config);
 
   /**
    *
