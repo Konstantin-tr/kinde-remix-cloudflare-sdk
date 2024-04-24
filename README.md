@@ -1,13 +1,11 @@
 # NOTICE
-THIS IS NOT MAINTAINED BY KINDE, THIS IS A HOBBY PROJECT FOR USING KINDE WITH REMIX IN CLOUDFLARE.
-
-Fork for using kinde remix sdk on cloudflare, currently WIP and not meant for production use.
+This is a fork for using kinde remix sdk on cloudflare, it is currently WIP and not meant for production use.
 
 If you find any issues, feel free to post them or open an MR.
 
 # kinde-remix-cloudflare-sdk
 
-This is a fork of https://github.com/kinde-oss/kinde-remix-sdk.
+The original repo is https://github.com/kinde-oss/kinde-remix-sdk.
 
 The original implementation uses remix/node and process.env, both of which are not easily supported on Cloudflare Worker environments.
 
@@ -19,9 +17,9 @@ The tests are broken right now, but this is just a quick hack to fix some broken
 
 ## Usage
 
-A basic overview of the package usage is supplied by [kinde](https://kinde.notion.site/Remix-SDK-Docs-eeba8882b6254b7b9db20a62a927cc29).
+An overview of how to use kinde with remix is supplied in the [kinde docs](https://kinde.com/docs/developer-tools/remix-sdk/).
 
-WIP.
+This package is slightly adapted, but the main difference is needing to supply a config when calling the sdk-methods to avoid depedencies on process.env
 
 ## Disclaimer
 
