@@ -25,7 +25,7 @@
     }
   },
   "scripts": {
-    "build": "npx tsc && cp src/types.d.ts dist/types/types.d.ts && genversion --es6 src/utils/version.js && npx rollup --c",
+    "build": "npx tsc && copy .\\src\\types.d.ts .\\dist\\types\\types.d.ts && genversion --es6 src/utils/version.js && npx rollup --c",
     "release": "release-it",
     "test": "vitest",
     "test:coverage": "vitest --coverage",

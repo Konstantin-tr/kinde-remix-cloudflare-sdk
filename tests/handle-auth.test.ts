@@ -13,7 +13,7 @@ describe("handleAuth", () => {
 
   it("should handle login requests", async () => {
     const requestEvent = new Request(
-      "http://localhost/oop/?returnTo=/redirect"
+      "http://localhost/oop/?returnTo=/redirect",
     );
 
     const loginMock = vi.fn().mockImplementation(async () => {
@@ -33,7 +33,7 @@ describe("handleAuth", () => {
 
   it("should handle register requests", async () => {
     const requestEvent = new Request(
-      "http://localhost/oop/?returnTo=/redirect"
+      "http://localhost/oop/?returnTo=/redirect",
     );
 
     const registerMock = vi.fn().mockImplementation(async () => {
@@ -75,7 +75,7 @@ describe("handleAuth", () => {
     const res = await handleAuth(requestEvent, "callback");
     expect(res?.status).toBe(302);
     expect(res?.headers.get("location")).toBe(
-      "http://localhost:3000/test-login"
+      "http://localhost:3000/test-login",
     );
   });
 });
