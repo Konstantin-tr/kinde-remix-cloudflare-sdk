@@ -71,4 +71,6 @@ export interface KindeConfig {
   kindePostLoginRedirectUrl: string;
   kindePostLogoutRedirectUrl: string;
   audience?: string;
+  isDebugMode: boolean;
+  cookieMaxAge?: number;
 }
