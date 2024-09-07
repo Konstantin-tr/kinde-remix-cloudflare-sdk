@@ -383,4 +383,23 @@ describe("getKindeSession", () => {
     const claim = await session.getUserOrganizations();
     expect(claim).toStrictEqual({ orgCodes: [] });
   });
+
+  it("can refreshTokens", async () => {
+    const requestEvent = new Request("http://localhost/oop");
+    const session = await getKindeSession(requestEvent);
+    kindeClient.refreshTokens = vi.fn().mockResolvedValueOnce({});
+    const headers = await session.refreshTokens();
+    expect(kindeClient.refreshTokens).toHaveBeenCalledWith(expect.anything());
+    expect(headers).toStrictEqual(new Headers());
+  });
+
+  it("returns new Headers() for refreshTokens when not authed", async () => {
+    const requestEvent = new Request("http://localhost/oop");
+    const session = await getKindeSession(requestEvent);
+    kindeClient.refreshTokens = vi
+      .fn()
+      .mockRejectedValueOnce(Error("Not authenticated"));
+    const claim = await session.refreshTokens();
+    expect(claim).toStrictEqual(new Headers());
+  });
 });

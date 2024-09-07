@@ -1,5 +1,14 @@
 import Cookies from "universal-cookie";
 
+const KINDE_COOKIES = [
+  "refresh_token",
+  "access_token",
+  "id_token",
+  "user",
+  "ac-state-key",
+  "post_login_redirect_url",
+];
+
 /**
  *
  * @param {string} name
@@ -54,11 +63,13 @@ export const generateCookieHeader = (request, cookies) => {
     path: "/",
   });
   const oldCookiesKeys = Object.keys(oldCookies.getAll());
-  const newCookiesKeys = Object.keys(cookies.getAll());
-
-  const cookiesToBeDeleted = oldCookiesKeys.filter(
-    (x) => !newCookiesKeys.includes(x),
+  const newCookiesKeys = Object.keys(cookies.getAll()).filter((cookie) =>
+    KINDE_COOKIES.includes(cookie),
   );
+
+  const cookiesToBeDeleted = oldCookiesKeys
+    .filter((cookie) => KINDE_COOKIES.includes(cookie))
+    .filter((x) => !newCookiesKeys.includes(x));
 
   let headers = new Headers();
 

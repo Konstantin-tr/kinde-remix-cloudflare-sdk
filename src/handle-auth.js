@@ -1,4 +1,5 @@
-import { redirect } from "@remix-run/cloudflare";
+import { validateClientSecret } from "@kinde-oss/kinde-typescript-sdk";
+import { json, redirect } from "@remix-run/cloudflare";
 import { getOrCreateClient } from "./client";
 import { createSessionManager } from "./session/session";
 import { generateCookieHeader } from "./utils/cookies";
@@ -6,11 +7,12 @@ import { generateCookieHeader } from "./utils/cookies";
 /**
  *
  * @param {Request} request
- * @param {*} route
+ * @param {string | undefined} route
  * @param {import("./types").KindeConfig} config
+ * @param {{onRedirectCallback?: (props: {user: import("./types").KindeUser}) => void}} [options]
  * @returns
  */
-export const handleAuth = async (request, route, config) => {
+export const handleAuth = async (request, route, config, options) => {
   const { sessionManager, cookies } = await createSessionManager(request);
 
   const kindeClient = getOrCreateClient(config);
@@ -50,6 +52,21 @@ export const handleAuth = async (request, route, config) => {
     });
   };
 
+  const health = async () => {
+    return json({
+      siteUrl: config.kindeSiteUrl,
+      issuerURL: config.issuerUrl,
+      clientID: config.clientId,
+      clientSecret: validateClientSecret(config.clientSecret || "")
+        ? "Set correctly"
+        : "Not set correctly",
+      postLogoutRedirectUrl: config.kindePostLogoutRedirectUrl,
+      postLoginRedirectUrl: config.kindePostLoginRedirectUrl,
+      audience: config.audience,
+      cookieMaxAge: config.cookieMaxAge,
+    });
+  };
+
   const callback = async () => {
     await kindeClient.handleRedirectToApp(sessionManager, new URL(request.url));
 
@@ -66,6 +83,14 @@ export const handleAuth = async (request, route, config) => {
       : config.kindePostLoginRedirectUrl ||
         "Set your post login redirect URL in your environment variables.";
     const headers = generateCookieHeader(request, cookies);
+
+    /**
+     * @type {any}
+     */
+    const user = await sessionManager.getSessionItem("user");
+
+    options?.onRedirectCallback?.({ user });
+
     return redirect(postLoginRedirectURL.toString(), {
       headers,
     });
@@ -88,5 +113,7 @@ export const handleAuth = async (request, route, config) => {
       return callback();
     case "logout":
       return logout();
+    case "health":
+      return health();
   }
 };

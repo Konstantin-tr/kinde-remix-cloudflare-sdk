@@ -6,20 +6,20 @@ describe("Utils tests", () => {
   test("serializeCookie returns headers object", async () => {
     const mockRequest = new Request("http://kinde.com");
     const { cookies, sessionManager } = await createSessionManager(mockRequest);
-    sessionManager.setSessionItem("someKey", "someValue");
+    sessionManager.setSessionItem("access_token", "someValue");
     const res = generateCookieHeader(mockRequest, cookies);
     expect(res).toBeTypeOf("object");
     const setCookie = res.getSetCookie();
     expect(setCookie).toEqual([
-      "someKey=someValue; Path=/; HttpOnly; SameSite=Lax",
+      "access_token=someValue; Path=/; HttpOnly; SameSite=Lax",
     ]);
   });
 
   test("serializeCookie only adds to Set-Cookie when needed", async () => {
     const mockRequest = new Request("http://kinde.com");
     const { cookies, sessionManager } = await createSessionManager(mockRequest);
-    sessionManager.setSessionItem("someKey", "someValue");
-    sessionManager.removeSessionItem("someKey");
+    sessionManager.setSessionItem("access_token", "someValue");
+    sessionManager.removeSessionItem("access_token");
     const res = generateCookieHeader(mockRequest, cookies);
     expect(res).toBeTypeOf("object");
     const setCookie = res.getSetCookie();
@@ -28,14 +28,14 @@ describe("Utils tests", () => {
 
   test("serializeCookie handles deletion", async () => {
     const mockRequest = new Request("http://kinde.com");
-    mockRequest.headers.append("Cookie", "someKey=someValue");
+    mockRequest.headers.append("Cookie", "access_token=someValue");
     const { cookies, sessionManager } = await createSessionManager(mockRequest);
-    sessionManager.removeSessionItem("someKey");
+    sessionManager.removeSessionItem("access_token");
     const res = generateCookieHeader(mockRequest, cookies);
     expect(res).toBeTypeOf("object");
     const setCookie = res.getSetCookie();
     expect(setCookie).toContain(
-      "someKey=0; Max-Age=-1; Path=/; HttpOnly; SameSite=Lax",
+      "access_token=0; Max-Age=-1; Path=/; HttpOnly; SameSite=Lax",
     );
   });
 });

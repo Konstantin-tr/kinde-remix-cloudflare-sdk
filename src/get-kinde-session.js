@@ -22,7 +22,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getClaimValue(sessionManager, claim, type);
     } catch (error) {
-      console.error(error);
+      if (config.isDebugMode) console.debug(error);
       return null;
     }
   };
@@ -37,7 +37,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getClaim(sessionManager, claim, type);
     } catch (error) {
-      console.error(error);
+      if (config.isDebugMode) console.debug(error);
       return null;
     }
   };
@@ -50,18 +50,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getToken(sessionManager);
     } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
-
-  const refreshTokens = async () => {
-    try {
-      await kindeClient.refreshTokens(sessionManager);
-      const headers = generateCookieHeader(request, cookies);
-      return headers;
-    } catch (error) {
-      console.error(error);
+      if (config.isDebugMode) console.debug(error);
       return null;
     }
   };
@@ -74,7 +63,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.isAuthenticated(sessionManager);
     } catch (error) {
-      console.error(error);
+      if (config.isDebugMode) console.debug(error);
       return false;
     }
   };
@@ -91,7 +80,7 @@ export const getKindeSession = async (request, config) => {
         error.message !==
         "Cannot get user details, no authentication credential found"
       )
-        console.error(error);
+        if (config.isDebugMode) console.debug(error);
       return null;
     }
   };
@@ -104,7 +93,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getUserProfile(sessionManager);
     } catch (error) {
-      console.error(error);
+      if (config.isDebugMode) console.debug(error);
       return null;
     }
   };
@@ -125,7 +114,7 @@ export const getKindeSession = async (request, config) => {
         type
       );
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return null;
     }
   };
@@ -144,7 +133,7 @@ export const getKindeSession = async (request, config) => {
         defaultValue
       );
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return null;
     }
   };
@@ -163,7 +152,7 @@ export const getKindeSession = async (request, config) => {
         defaultValue
       );
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return null;
     }
   };
@@ -181,7 +170,7 @@ export const getKindeSession = async (request, config) => {
         defaultValue
       );
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return null;
     }
   };
@@ -195,7 +184,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getPermission(sessionManager, permission);
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return null;
     }
   };
@@ -208,7 +197,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getPermissions(sessionManager);
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return [];
     }
   };
@@ -221,7 +210,7 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getOrganization(sessionManager);
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return null;
     }
   };
@@ -234,12 +223,28 @@ export const getKindeSession = async (request, config) => {
     try {
       return await kindeClient.getUserOrganizations(sessionManager);
     } catch (err) {
-      console.error(err);
+      if (config.isDebugMode) console.debug(err);
       return { orgCodes: [] };
     }
   };
 
+  const refreshTokens = async () => {
+    try {
+      await kindeClient.refreshTokens(sessionManager);
+      const headers = generateCookieHeader(request, cookies);
+      return headers;
+    } catch (error) {
+      if (config.isDebugMode) {
+        console.debug(error);
+      }
+      return new Headers();
+    }
+  };
+
+  const headers = await refreshTokens();
+
   return {
+    headers,
     getClaim,
     getClaimValue,
     getOrganization,
