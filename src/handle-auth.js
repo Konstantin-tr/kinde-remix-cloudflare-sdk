@@ -68,28 +68,13 @@ export const handleAuth = async (request, route, config, options) => {
   };
 
   const callback = async () => {
-    if (config.isDebugMode) {
-      console.log(request.url);
-    }
-
     await kindeClient.handleRedirectToApp(sessionManager, new URL(request.url));
-
-    if (config.isDebugMode) {
-      console.log("redirect handled");
-    }
 
     const postLoginRedirectURLFromMemory = await sessionManager.getSessionItem(
       "post_login_redirect_url",
     );
 
-    if (config.isDebugMode) {
-      console.log(postLoginRedirectURLFromMemory);
-    }
-
     if (postLoginRedirectURLFromMemory) {
-      if (config.isDebugMode) {
-        console.log("removed login");
-      }
       sessionManager.removeSessionItem("post_login_redirect_url");
     }
 
@@ -98,21 +83,9 @@ export const handleAuth = async (request, route, config, options) => {
       : config.kindePostLoginRedirectUrl ||
         "Set your post login redirect URL in your environment variables.";
 
-    if (config.isDebugMode) {
-      console.log("redirect", postLoginRedirectURL);
-    }
-
     const headers = generateCookieHeader(request, cookies);
 
-    if (config.isDebugMode) {
-      console.log("headers", headers);
-    }
-
     const user = await kindeClient.getUser(sessionManager);
-
-    if (config.isDebugMode) {
-      console.log("user", user);
-    }
 
     options?.onRedirectCallback?.({ user });
 
