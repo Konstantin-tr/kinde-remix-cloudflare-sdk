@@ -4,19 +4,13 @@ import {
 } from "@kinde-oss/kinde-typescript-sdk";
 import { version } from "./utils/version";
 
-let kindeClient = null;
-
 /**
  *
  * @param {import("./types").KindeConfig} config
  * @returns
  */
 export function getOrCreateClient(config) {
-  if (!!kindeClient) {
-    return kindeClient;
-  }
-
-  kindeClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
+  const kindeClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
     authDomain: config.issuerUrl,
     clientId: config.clientId,
     clientSecret: config.clientSecret,
