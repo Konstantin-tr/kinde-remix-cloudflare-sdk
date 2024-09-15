@@ -79,7 +79,7 @@ export const handleAuth = async (request, route, config, options) => {
     }
 
     const postLoginRedirectURLFromMemory = await sessionManager.getSessionItem(
-      "post_login_redirect_url"
+      "post_login_redirect_url",
     );
 
     if (config.isDebugMode) {
