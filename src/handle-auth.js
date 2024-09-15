@@ -84,10 +84,7 @@ export const handleAuth = async (request, route, config, options) => {
         "Set your post login redirect URL in your environment variables.";
     const headers = generateCookieHeader(request, cookies);
 
-    /**
-     * @type {any}
-     */
-    const user = await sessionManager.getSessionItem("user");
+    const user = await kindeClient.getUser(sessionManager);
 
     options?.onRedirectCallback?.({ user });
 
