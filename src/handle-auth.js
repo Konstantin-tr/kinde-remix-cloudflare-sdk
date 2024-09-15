@@ -74,8 +74,12 @@ export const handleAuth = async (request, route, config, options) => {
 
     await kindeClient.handleRedirectToApp(sessionManager, new URL(request.url));
 
+    if (config.isDebugMode) {
+      console.log("redirect handled");
+    }
+
     const postLoginRedirectURLFromMemory = await sessionManager.getSessionItem(
-      "post_login_redirect_url",
+      "post_login_redirect_url"
     );
 
     if (config.isDebugMode) {
